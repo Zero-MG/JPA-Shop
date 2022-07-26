@@ -53,6 +53,45 @@ public class OrderServiceTest {
         assertEquals("주문 수량만큼 재고가 줄어야 한다.", 8, book.getStockQuantity());
     }
 
+
+    @Test
+    public void 주문취소() throws Exception {
+        //이런게 주어졌을 때 :: given
+        Member member = createMember();
+        Book item = createBook("시골 JPA", 10000, 10);
+
+        int orderCount = 2;
+
+        Long orderId = orderService.order(member.getId(), item.getId(), orderCount);
+        //이걸 실행하면 :: when
+        orderService.cancelOrder(orderId);
+
+        //결과가 나와야 됨 :: then
+        Order getOrder = orderRepository.findOne(orderId);
+        assertEquals("주문 취소시 상태는 CANCEL 이다.", OrderStatus.CANCEL, getOrder.getStatus());
+        assertEquals("주문 취소된 상품은 그만큼 재고가 증가해야 한다..", 10, item.getStockQuantity());
+
+    }
+
+    @Test(expected = NotEnoughStockException.class)
+    public void 상품주문_재고수량초과() throws Exception {
+        //이런게 주어졌을 때 :: given
+        Member member = createMember();
+        Item item = createBook("시골 JPA", 10000, 10);
+
+        int orderCount = 11;
+
+        //이걸 실행하면 :: when
+        orderService.order(member.getId(), item.getId(), orderCount);
+
+        //결과가 나와야 됨 :: then
+        fail("재고 수량 부족 예외가 발생해야 한다.");
+
+    }
+
+
+
+
     private Book createBook(String name, int price, int stockQuantity) {
         Book book = new Book();
         book.setName(name);
@@ -68,28 +107,6 @@ public class OrderServiceTest {
         member.setAddress(new Address("서울", "강가", "123-123"));
         em.persist(member);
         return member;
-    }
-
-    @Test
-    public void 주문취소() throws Exception {
-        //이런게 주어졌을 때 :: given
-
-        //이걸 실행하면 :: when
-
-        //결과가 나와야 됨 :: then
-
-    }
-
-    @Test(expected = NotEnoughStockException.class)
-    public void 상품주문_재고수량초과() throws Exception {
-        //이런게 주어졌을 때 :: given
-        Member member = createMember();
-        Item item = createBook("시골 JPA", 10000, 10);
-
-        //이걸 실행하면 :: when
-
-        //결과가 나와야 됨 :: then
-
     }
 
 }
