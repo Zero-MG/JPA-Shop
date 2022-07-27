@@ -24,6 +24,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-devtools'
 
+    // 벨리데이션 Boot ver2.3 이상부터는 이거 추가해줘야 함.
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
     /*외부 라이브러리 :: JPA Query 파라미터 표시*/
     // https://mvnrepository.com/artifact/com.github.gavlyukovskiy/datasource-decorator-spring-boot-autoconfigure
     implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.0")
