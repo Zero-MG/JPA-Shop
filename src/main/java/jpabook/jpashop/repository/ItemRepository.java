@@ -14,10 +14,15 @@ public class ItemRepository {
     private final EntityManager em;
 
     public void save(Item item) {
+        /**
+         * id값이 null이라면 새로 INSERT 하고,
+         * id값이 null이 아니고 값이 있다면, merge는 교체 해줌
+         */
         if (item.getId() == null) {
             em.persist(item);
         }else{
             em.merge(item); //약간 세이브? 업데이트? 리로딩? 그런 느낌?
+            // 병합. 실무에서 사용하지 않지만, 설명을 위해 씀.
         }
     }
 
