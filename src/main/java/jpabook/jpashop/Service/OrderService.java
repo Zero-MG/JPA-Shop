@@ -8,6 +8,7 @@ import jpabook.jpashop.domain.item.Item;
 import jpabook.jpashop.repository.ItemRepository;
 import jpabook.jpashop.repository.MemberRepository;
 import jpabook.jpashop.repository.OrderRepository;
+import jpabook.jpashop.repository.OrderSearch;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -65,10 +66,10 @@ public class OrderService {
     /**
      * 주문 검색
      */
-/*
     public List<Order> findOrders(OrderSearch orderSearch) {
-        return orderRepository.findAll(orderSearch);
+        return orderRepository.findAllByString(orderSearch);
+        // 이 서비스와 같이, 간단하게 보여주기만 하는 & 서비스에 repo를 주입만 해주는 정도의 서비스는
+        // Repository를 Controller에서 바로 불러서 하는 것이 더 나중 유지보수에 편하다.
     }
-*/
 
 }
