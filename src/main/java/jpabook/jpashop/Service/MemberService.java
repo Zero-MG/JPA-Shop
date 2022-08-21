@@ -54,4 +54,10 @@ public class MemberService {
         return repo.findOne(memberId); //단건조회
     }
 
+    @Transactional
+    public void update(Long id, String name) {
+        Member member = repo.findOne(id);
+        member.setName(name); // 트랜젝션 내 Entity가 변경된 것을 JPA가 감지하여 커밋해줌.
+        // [변경감지] 여기서 트랜젝션 커밋이 발생하면 DB에 수정이 반영됨.
+    }
 }
